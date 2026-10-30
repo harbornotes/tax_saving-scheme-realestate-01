@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>不動産取得による株価圧縮</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: #0f172a;
+      color: #1e293b;
+      -webkit-tap-highlight-color: transparent;
+      scroll-behavior: smooth;
+    }
+    /* スマホフレーム風コンテナ（PC閲覧時もスマホ幅で見やすく表示） */
+    .mobile-container {
+      max-width: 480px;
+      margin: 0 auto;
+      background-color: #f8fafc;
+      min-height: 100vh;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+      padding-bottom: 5rem;
+    }
+    /* スクロールバー非表示（横スクロールナビ用） */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .gradient-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+    }
+    .card-shadow {
+      box-shadow: 0 4px 15px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+    }
+    .step-connector {
+      position: relative;
+    }
+    .step-connector::after {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 40px;
+      bottom: -16px;
+      width: 2px;
+      background-color: #cbd5e1;
+      z-index: 0;
+    }
+    .step-connector:last-child::after {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-900">
+
+  <div class="mobile-container">
+    
+    <!-- スティッキーナビゲーション -->
+    <nav class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-md text-white border-b border-slate-700 px-3 py-2.5">
+      <div class="flex items-center justify-between gap-1.5 overflow-x-auto no-scrollbar text-xs font-bold">
+        <a href="#sec-conclusion" class="nav-pill shrink-0 px-3 py-1.5 rounded-full bg-blue-600 text-white transition">結論</a>
+        <a href="#sec-point1" class="nav-pill shrink-0 px-3 py-1.5 rounded-full bg-slate-800 text-slate-300 hover:bg-slate-700 transition">① 3年ルール</a>
+        <a href="#sec-point2" class="nav-pill shrink-0 px-3 py-1.5 rounded-full bg-slate-800 text-slate-300 hover:bg-slate-700 transition">② 否認リスク</a>
+        <a href="#sec-point3" class="nav-pill shrink-0 px-3 py-1.5 rounded-full bg-slate-800 text-slate-300 hover:bg-slate-700 transition">③ 制度改正</a>
+        <a href="#sec-point4" class="nav-pill shrink-0 px-3 py-1.5 rounded-full bg-slate-800 text-slate-300 hover:bg-slate-700 transition">④ 実務判断</a>
+      </div>
+    </nav>
+
+    <!-- ヒーローヘッダー -->
+    <header class="gradient-header text-white px-5 pt-6 pb-8 relative overflow-hidden">
+      <div class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-blue-500/20 blur-xl pointer-events-none"></div>
+      <div class="inline-flex items-center gap-1.5 bg-amber-400/20 border border-amber-300/40 text-amber-200 text-[11px] font-bold px-2.5 py-1 rounded-md mb-3">
+        <svg class="w-3.5 h-3.5 text-amber-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>2026年10月30日現在｜法令・通達・裁判例を再確認</span>
+      </div>
+      <h1 class="text-2xl font-black leading-tight tracking-tight mb-3">
+        不動産取得による株価圧縮<br>
+        <span class="text-amber-300">特に重要な3つの論点</span>
+      </h1>
+      <p class="text-xs text-slate-200 leading-relaxed">
+        法人が借入金で不動産を購入し、取得から3年を超えてから非上場株式を移転する手法の「現在地」と「実務判断基準」を視覚的に整理。
+      </p>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="px-4 -mt-4 space-y-6 relative z-10">
+
+      <!-- 結論セクション -->
+      <section id="sec-conclusion" class="scroll-mt-14 bg-white rounded-2xl p-4 card-shadow border border-slate-100">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="bg-blue-600 text-white text-xs font-black px-2.5 py-1 rounded-md">結論</span>
+          <h2 class="text-base font-black text-slate-800">現行税制上、検討価値はあるが3点に要注意</h2>
+        </div>
+        <p class="text-xs text-slate-600 leading-relaxed mb-4 bg-blue-50/70 p-3 rounded-xl border border-blue-100">
+          法人が借入金で不動産を購入し、<strong class="text-blue-900">取得から3年を超えて非上場株式を移転する方法</strong>は現行税制上も検討に値します。ただし、特に重視すべきは以下の3点です。
+        </p>
+
+        <!-- 3つの柱カード -->
+        <div class="space-y-2.5">
+          <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="w-7 h-7 rounded-lg bg-blue-600 text-white font-black text-sm flex items-center justify-center shrink-0 mt-0.5">1</div>
+            <div>
+              <div class="text-xs font-bold text-slate-800 mb-0.5">株式の「譲渡先」で効果が異なる</div>
+              <p class="text-[11px] text-slate-600 leading-normal">3年経過後の評価減は認められるが、個人への移転か法人への移転かで取扱いが大きく変わる。</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="w-7 h-7 rounded-lg bg-amber-500 text-white font-black text-sm flex items-center justify-center shrink-0 mt-0.5">2</div>
+            <div>
+              <div class="text-xs font-bold text-slate-800 mb-0.5">極端な軽減狙いには現実的な否認リスク</div>
+              <p class="text-[11px] text-slate-600 leading-normal">節税目的だけでは否認されないが、意図的な一連の行為で著しく税負担を減らす場合は総則6項リスクが高まる。</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 p-3 rounded-xl bg-rose-50/70 border border-rose-200">
+            <div class="w-7 h-7 rounded-lg bg-rose-600 text-white font-black text-sm flex items-center justify-center shrink-0 mt-0.5">3</div>
+            <div>
+              <div class="text-xs font-bold text-rose-900 mb-0.5">今から買うなら「制度改正リスク」が最重要</div>
+              <p class="text-[11px] text-rose-800 leading-normal">これから取得する場合、総則6項による否認以上に、今後の株式評価制度自体の変更を重視すべき場面がある。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 論点1：3年ルールと移転先 -->
+      <section id="sec-point1" class="scroll-mt-14 bg-white rounded-2xl p-4 card-shadow border border-slate-100">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-black text-blue-600 tracking-wider uppercase">POINT 01｜財産評価基本通達185</span>
+          <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">純資産価額方式</span>
+        </div>
+        <h2 class="text-lg font-black text-slate-900 mb-3 leading-snug">
+          3年超経過後の株価圧縮と<br>「誰に株式を移転するか」
+        </h2>
+
+        <!-- 図解：3年ルールのタイムライン比較 -->
+        <div class="bg-slate-900 text-white rounded-xl p-3.5 mb-4">
+          <div class="text-[11px] font-bold text-slate-300 mb-2.5 flex items-center justify-between">
+            <span>法人取得不動産の評価ルール</span>
+            <span class="text-[10px] bg-slate-800 text-amber-300 px-2 py-0.5 rounded">取得からの期間で変化</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-center">
+            <div class="bg-slate-800 border border-slate-700 rounded-lg p-2.5">
+              <div class="text-[11px] text-slate-400 font-bold mb-1">取得から 3年以内</div>
+              <div class="text-xs font-black text-rose-300 bg-rose-950/60 border border-rose-800/60 py-1.5 rounded">
+                原則：通常の取引価額
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1.5">評価減効果なし</div>
+            </div>
+            <div class="bg-blue-950/80 border-2 border-amber-400 rounded-lg p-2.5 relative">
+              <span class="absolute -top-2 right-2 bg-amber-400 text-slate-950 text-[9px] font-black px-1.5 py-0.2 rounded">圧縮発生</span>
+              <div class="text-[11px] text-blue-200 font-bold mb-1">取得から 3年超</div>
+              <div class="text-xs font-black text-amber-300 bg-blue-900/70 border border-blue-700 py-1.5 rounded">
+                原則：相続税評価額
+              </div>
+              <div class="text-[10px] text-blue-200 mt-1.5">時価との差額が圧縮へ</div>
+            </div>
+          </div>
+
+          <!-- 3億円→2億円のビジュアルバー -->
+          <div class="mt-3 pt-3 border-t border-slate-800">
+            <div class="text-[11px] font-bold text-slate-300 mb-2">【具体例】借入3億円で不動産を購入した場合</div>
+            <div class="space-y-2 text-xs">
+              <div class="flex items-center gap-2">
+                <span class="w-16 text-[10px] text-slate-400 shrink-0">3年以内</span>
+                <div class="flex-1 bg-slate-700 h-6 rounded overflow-hidden flex items-center px-2 font-bold text-[11px]">
+                  通常の取引価額：3億円
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-16 text-[10px] text-amber-300 font-bold shrink-0">3年超経過</span>
+                <div class="flex-1 flex h-6 rounded overflow-hidden text-[11px] font-bold">
+                  <div class="w-2/3 bg-blue-600 flex items-center justify-center text-white">相続税評価 2億円</div>
+                  <div class="w-1/3 bg-amber-400 text-slate-950 flex items-center justify-center font-black">▲1億円減</div>
+                </div>
+              </div>
+            </div>
+            <p class="text-[10px] text-slate-400 mt-2 leading-relaxed">
+              ※株式評価方式や他の資産・負債の状況により、最終的な株価への影響は異なります。
+            </p>
+          </div>
+        </div>
+
+        <!-- 図解：移転先別マトリクス -->
+        <div class="mb-1">
+          <div class="text-xs font-black text-slate-800 mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-4 bg-blue-600 rounded-sm inline-block"></span>
+            重要なのは「誰に株式を移転するか」
+          </div>
+          <div class="space-y-2">
+            <!-- パターン1 -->
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200 flex items-center justify-between gap-2">
+              <div class="flex-1">
+                <div class="flex items-center gap-1.5 mb-1">
+                  <span class="bg-emerald-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded">有効</span>
+                  <span class="text-xs font-black text-slate-800">個人への贈与・相続</span>
+                </div>
+                <p class="text-[11px] text-slate-600 leading-normal">
+                  3年超経過後の<strong>相続税評価額を原則として利用可能</strong>（親から子への贈与など）。
+                </p>
+              </div>
+              <div class="text-2xl font-black text-emerald-600 shrink-0 px-1">◎</div>
+            </div>
+
+            <!-- パターン2 -->
+            <div class="p-3 rounded-xl bg-blue-50/70 border border-blue-200 flex items-center justify-between gap-2">
+              <div class="flex-1">
+                <div class="flex items-center gap-1.5 mb-1">
+                  <span class="bg-blue-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded">余地あり</span>
+                  <span class="text-xs font-black text-slate-800">個人から個人への売買</span>
+                </div>
+                <p class="text-[11px] text-slate-600 leading-normal">
+                  相続税法7条（みなし贈与）の低額譲渡判定において、<strong>相続税評価額を用いる余地</strong>がある。
+                </p>
+              </div>
+              <div class="text-2xl font-black text-blue-600 shrink-0 px-1">◯</div>
+            </div>
+
+            <!-- パターン3 -->
+            <div class="p-3 rounded-xl bg-rose-50/80 border border-rose-200 flex items-center justify-between gap-2">
+              <div class="flex-1">
+                <div class="flex items-center gap-1.5 mb-1">
+                  <span class="bg-rose-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded">制約あり</span>
+                  <span class="text-xs font-black text-rose-950">個人から法人への売買</span>
+                </div>
+                <p class="text-[11px] text-rose-900 leading-normal">
+                  所得税法59条の適用場面では発行会社保有の土地等に<strong>時価評価が要求される</strong>ため、同じ圧縮効果を期待すべきではない。
+                </p>
+              </div>
+              <div class="text-2xl font-black text-rose-600 shrink-0 px-1">×</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 論点2：税務否認リスクと裁判例 -->
+      <section id="sec-point2" class="scroll-mt-14 bg-white rounded-2xl p-4 card-shadow border border-slate-100">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-black text-amber-600 tracking-wider uppercase">POINT 02｜財産評価基本通達6項（総則6項）</span>
+          <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">最重要論点</span>
+        </div>
+        <h2 class="text-lg font-black text-slate-900 mb-3 leading-snug">
+          税務否認リスクは、<br>実際にどの程度あるのか？
+        </h2>
+
+        <!-- 3大重要裁判例タイムライン -->
+        <div class="mb-5">
+          <div class="text-xs font-black text-slate-800 mb-2.5 flex items-center gap-1.5">
+            <span class="w-2 h-4 bg-amber-500 rounded-sm inline-block"></span>
+            押さえるべき3つの重要裁判例
+          </div>
+
+          <div class="space-y-3">
+            <!-- 2022.4.19 最高裁 -->
+            <div class="p-3.5 rounded-xl bg-slate-50 border-l-4 border-rose-500 border border-slate-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-black text-slate-500">2022年4月19日｜最高裁判決</span>
+                <span class="bg-rose-100 text-rose-700 text-[10px] font-black px-2 py-0.5 rounded">総則6項適用（否認）</span>
+              </div>
+              <div class="text-xs font-black text-slate-900 mb-1.5">借入れ＋不動産取得による相続税の大幅軽減</div>
+              <div class="bg-white p-2 rounded-lg border border-slate-200 mb-2 flex items-center justify-between text-[11px]">
+                <div>課税価格：<strong class="text-slate-800">6億円超 → 約2,826万円</strong></div>
+                <div class="font-black text-rose-600">相続税 0円</div>
+              </div>
+              <p class="text-[11px] text-slate-600 leading-relaxed">
+                <strong>【判断枠組み】</strong>時価との大きな乖離だけでは不可。他の納税者との間で<strong class="text-slate-900 underline decoration-amber-400 decoration-2">「看過し難い不均衡」</strong>を生じさせ、実質的な租税負担の公平に反するかが基準。節税効果を認識・期待した一連の取引実行も重視。
+              </p>
+            </div>
+
+            <!-- 2024.8.28 仙台薬局事件 -->
+            <div class="p-3.5 rounded-xl bg-slate-50 border-l-4 border-emerald-500 border border-slate-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-black text-slate-500">2024年8月28日｜仙台薬局事件</span>
+                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2 py-0.5 rounded">納税者勝訴</span>
+              </div>
+              <div class="text-xs font-black text-slate-900 mb-1">非上場株式の評価乖離のみでは例外評価認めず</div>
+              <p class="text-[11px] text-slate-600 leading-relaxed">
+                通達評価額と別評価額に大きな乖離があったが、課税庁の例外的な高額評価は棄却。<strong class="text-emerald-900">※積極的な株価圧縮行為が認定された事案ではない点が重要。</strong>
+              </p>
+            </div>
+
+            <!-- 2025.6.19 東京高裁 -->
+            <div class="p-3.5 rounded-xl bg-slate-50 border-l-4 border-rose-500 border border-slate-200">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-black text-slate-500">2025年6月19日｜東京高裁判決</span>
+                <span class="bg-rose-100 text-rose-700 text-[10px] font-black px-2 py-0.5 rounded">非上場株式でも否認</span>
+              </div>
+              <div class="text-xs font-black text-slate-900 mb-1.5">同族会社の新株発行・配当等による株価圧縮</div>
+              <div class="bg-white p-2 rounded-lg border border-slate-200 mb-2 flex items-center justify-between text-[11px]">
+                <div>相続税軽減額：<strong class="text-slate-800">約9.79億円</strong></div>
+                <div class="font-black text-rose-600">約48.1% 軽減</div>
+              </div>
+              <p class="text-[11px] text-slate-600 leading-relaxed">
+                非上場株式においても、意図的な一連の行為によって税負担を著しく軽減するケースでは、総則6項による否認が現実的なリスクとなる。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- リスク評価3ケース（ケースA・B・C） -->
+        <div class="mb-5">
+          <div class="text-xs font-black text-slate-800 mb-2 flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span class="w-2 h-4 bg-amber-500 rounded-sm inline-block"></span>
+              類型別リスク評価（判例類似性による相対評価）
+            </span>
+          </div>
+
+          <div class="space-y-2.5">
+            <!-- ケースA -->
+            <div class="rounded-xl border border-emerald-200 bg-emerald-50/40 p-3">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-black text-slate-800">ケースA：通常の不動産投資＋株価圧縮</span>
+                <span class="bg-emerald-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">リスク：低〜中</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-2">
+                <div class="bg-emerald-500 h-full w-1/3 rounded-full"></div>
+              </div>
+              <p class="text-[11px] text-slate-600">
+                収益性のある不動産を取得し長期保有。株価圧縮も目的の一つだが、<strong>投資として独立した合理性</strong>がある。
+              </p>
+            </div>
+
+            <!-- ケースB -->
+            <div class="rounded-xl border border-amber-300 bg-amber-50/50 p-3">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-black text-slate-800">ケースB：株価圧縮が主目的</span>
+                <span class="bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full">リスク：中〜高</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-2">
+                <div class="bg-amber-500 h-full w-2/3 rounded-full"></div>
+              </div>
+              <p class="text-[11px] text-slate-600">
+                借入金で大幅に株価を引き下げ、3年超経過後に子へ承継する計画。ただし<strong>不動産賃貸事業は継続</strong>する。
+              </p>
+            </div>
+
+            <!-- ケースC -->
+            <div class="rounded-xl border border-rose-300 bg-rose-50/60 p-3">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-black text-rose-950">ケースC：極端な評価圧縮スキーム</span>
+                <span class="bg-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">リスク：高</span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-2">
+                <div class="bg-rose-600 h-full w-11/12 rounded-full"></div>
+              </div>
+              <p class="text-[11px] text-rose-900">
+                株価をほぼゼロにすることが中心目的。独立した投資合理性が乏しく、<strong>承継後の早期売却まで予定</strong>する。
+              </p>
+            </div>
+          </div>
+          <p class="text-[10px] text-slate-500 mt-1.5">
+            ※総則6項に法定のリスク区分や安全期間、「50%超なら否認」といった数値基準はありません。
+          </p>
+        </div>
+
+        <!-- 天秤図解：必ず比較する2つの軸 -->
+        <div class="bg-slate-900 text-white rounded-xl p-3.5">
+          <div class="text-center mb-3">
+            <span class="text-[10px] font-bold text-amber-300 bg-amber-400/10 border border-amber-400/30 px-2.5 py-0.5 rounded-full">本質的な分岐点</span>
+            <h3 class="text-xs font-black mt-1.5">「税務上の評価減が得られなくても、保有する合理性があるか？」</h3>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5 text-[11px]">
+            <div class="bg-rose-950/60 border border-rose-700/60 rounded-lg p-2.5">
+              <div class="font-black text-rose-300 mb-1.5 flex items-center gap-1">
+                <span>⚖️ 税務目的の強さ</span>
+              </div>
+              <ul class="space-y-1 text-slate-300 text-[10px] list-disc list-inside">
+                <li>3年経過直後の贈与時期</li>
+                <li>株価圧縮額の大きさ</li>
+                <li>税負担軽減割合</li>
+                <li>将来の早期売却計画</li>
+              </ul>
+            </div>
+
+            <div class="bg-emerald-950/60 border border-emerald-700/60 rounded-lg p-2.5">
+              <div class="font-black text-emerald-300 mb-1.5 flex items-center gap-1">
+                <span>🏢 事業上の合理性</span>
+              </div>
+              <ul class="space-y-1 text-slate-300 text-[10px] list-disc list-inside">
+                <li>取得利回り・資金繰り</li>
+                <li>長期保有方針の有無</li>
+                <li>資産分散の目的</li>
+                <li>税効果喪失時の経済損益</li>
+              </ul>
+            </div>
+          </div>
+          <p class="text-[10px] text-slate-400 mt-2.5 leading-normal">
+            ※2022年最高裁判決でも事業承継の一環という事情がありながら課税処分が認められており、収益物件というだけで総則6項を排除できるわけではありません。
+          </p>
+        </div>
+      </section>
+
+      <!-- 論点3：制度改正リスク（2026年有識者会議） -->
+      <section id="sec-point3" class="scroll-mt-14 bg-white rounded-2xl p-4 card-shadow border-2 border-rose-500/80 relative">
+        <div class="absolute -top-3 right-4 bg-rose-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow">
+          2026年最新動向
+        </div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-black text-rose-600 tracking-wider uppercase">POINT 03｜国税庁・有識者会議の議論</span>
+        </div>
+        <h2 class="text-lg font-black text-slate-900 mb-3 leading-snug">
+          今から取得するなら<br><span class="text-rose-600">「制度改正リスク」</span>が特に重要
+        </h2>
+
+        <!-- 第4回有識者会議 事例⑧の図解カード -->
+        <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-3.5 mb-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-black text-rose-900">2026年7月3日｜第4回有識者会議「事例⑧」</span>
+            <span class="text-[10px] bg-white text-rose-700 border border-rose-200 px-1.5 py-0.5 rounded font-bold">資料39頁</span>
+          </div>
+          <p class="text-[11px] text-slate-700 mb-3 leading-normal">
+            国税庁の有識者会議にて、今回と<strong>ほぼ同じ株価圧縮スキーム</strong>がモデル事例として取り上げられています（※実際の否認事件ではなく検討用モデル）。
+          </p>
+
+          <!-- 4つの数値グリッド -->
+          <div class="grid grid-cols-2 gap-2 mb-2.5">
+            <div class="bg-white p-2.5 rounded-lg border border-rose-100 text-center">
+              <div class="text-[10px] text-slate-500 font-bold">法人の不動産取得</div>
+              <div class="text-base font-black text-slate-900">約10億円</div>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-rose-100 text-center">
+              <div class="text-[10px] text-slate-500 font-bold">保有期間</div>
+              <div class="text-base font-black text-slate-900">4年6か月</div>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-rose-100 text-center">
+              <div class="text-[10px] text-slate-500 font-bold">相続税評価額</div>
+              <div class="text-base font-black text-blue-700">約4.6億円</div>
+            </div>
+            <div class="bg-rose-600 text-white p-2.5 rounded-lg text-center">
+              <div class="text-[10px] text-rose-100 font-bold">資料上の税額圧縮効果</div>
+              <div class="text-base font-black">約3億円</div>
+            </div>
+          </div>
+          <div class="text-[11px] text-center font-bold text-rose-900 bg-rose-100/80 py-1.5 rounded-lg">
+            純資産価額方式による持株会社株価を「0円」として親→子へ贈与
+          </div>
+        </div>
+
+        <!-- 制度改正に向けた動きのタイムライン -->
+        <div class="space-y-3 mb-4 pl-1">
+          <div class="flex items-start gap-3 step-connector">
+            <div class="w-9 h-9 rounded-full bg-rose-100 border-2 border-rose-500 text-rose-700 font-black text-[10px] flex items-center justify-center shrink-0 z-10">
+              26.7
+            </div>
+            <div class="pt-0.5">
+              <div class="text-xs font-black text-slate-800">第4回有識者会議（2026年7月3日）</div>
+              <p class="text-[11px] text-slate-600">上記「事例⑧」として法人不動産取得による株価圧縮を問題提起。</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 step-connector">
+            <div class="w-9 h-9 rounded-full bg-rose-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 z-10">
+              26.9
+            </div>
+            <div class="pt-0.5">
+              <div class="text-xs font-black text-rose-700">第6回有識者会議（2026年9月16日）</div>
+              <p class="text-[11px] text-slate-700 font-medium">
+                次回以降の論点に<strong class="underline decoration-rose-400 decoration-2">「法人が3年以内に取得した不動産の取扱い」</strong>が明記される。
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 step-connector">
+            <div class="w-9 h-9 rounded-full bg-slate-200 border-2 border-slate-400 text-slate-700 font-black text-[10px] flex items-center justify-center shrink-0 z-10">
+              2027
+            </div>
+            <div class="pt-0.5">
+              <div class="text-xs font-black text-slate-800">貸付用不動産5年ルール案との関係</div>
+              <p class="text-[11px] text-slate-600">
+                2027年適用予定の5年ルール案では「評価通達185」は除外。直ちに法人3年ルールが5年に延びるわけではないが、<strong>非上場株式の評価制度自体の見直しが進行中</strong>。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2026→2029年計画への警告 -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded-r-xl">
+          <div class="text-xs font-black text-amber-900 mb-1">⚠️ 2026年取得 → 2029年以降移転の注意点</div>
+          <p class="text-[11px] text-amber-800 leading-relaxed">
+            現時点で3年ルールの廃止・延長等は未決定ですが、3年後の株式移転時までにルールが変わる可能性があります。<strong>現行の3年ルールによる税効果を「確実なもの」として投資判断すべきではありません。</strong>
+          </p>
+        </div>
+      </section>
+
+      <!-- 論点4：最終的な実務判断 -->
+      <section id="sec-point4" class="scroll-mt-14 bg-white rounded-2xl p-4 card-shadow border border-slate-100">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-black text-blue-600 tracking-wider uppercase">POINT 04｜実務アクション</span>
+          <span class="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-bold">意思決定フレーム</span>
+        </div>
+        <h2 class="text-lg font-black text-slate-900 mb-3 leading-snug">
+          最終的な実務判断と<br>比較すべき「3つの金額」
+        </h2>
+
+        <!-- インタラクティブ切替タブ：既に取得 vs これから購入 -->
+        <div class="mb-4">
+          <div class="text-[11px] font-bold text-slate-500 mb-1.5">▼ 現在の状況をタップして判断方針を確認</div>
+          <div class="grid grid-cols-2 gap-1.5 bg-slate-100 p-1 rounded-xl mb-3">
+            <button onclick="switchPhase('existing')" id="tab-existing" class="py-2 px-2 rounded-lg text-xs font-black transition bg-white text-blue-700 shadow-sm">
+              既に取得し3年超経過
+            </button>
+            <button onclick="switchPhase('new')" id="tab-new" class="py-2 px-2 rounded-lg text-xs font-black transition text-slate-600 hover:text-slate-900">
+              これから不動産を購入
+            </button>
+          </div>
+
+          <!-- 既に取得コンテンツ -->
+          <div id="content-existing" class="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200">
+            <div class="text-xs font-black text-blue-900 mb-1.5 flex items-center gap-1.5">
+              <span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded">方針</span>
+              評価通達185を放棄せず、否認リスクを具体検討
+            </div>
+            <p class="text-[11px] text-slate-700 leading-relaxed">
+              既に不動産を取得して3年超経過している案件では、現行通達による株価評価を行い、税務否認リスク（ケースA〜Cのどこに近いか等）を具体的に検討します。<strong class="text-blue-950">総則6項のリスクが存在するだけで、評価通達185による評価を自ら放棄する必要はありません。</strong>
+            </p>
+          </div>
+
+          <!-- これから購入コンテンツ -->
+          <div id="content-new" class="hidden p-3.5 rounded-xl bg-amber-50/80 border border-amber-300">
+            <div class="text-xs font-black text-amber-950 mb-1.5 flex items-center gap-1.5">
+              <span class="bg-amber-600 text-white text-[10px] px-2 py-0.5 rounded">方針</span>
+              不動産投資としての合理性を第一に検討
+            </div>
+            <p class="text-[11px] text-slate-700 leading-relaxed">
+              これから購入する案件では、<strong class="text-amber-950">不動産投資としての独立した合理性を第一</strong>に検討し、現行の株価圧縮効果は「追加的なメリット」として位置づけます。制度改正で圧縮ができなくなっても成立する物件かが鍵です。
+            </p>
+          </div>
+        </div>
+
+        <!-- 最終判断で重要な「3つの金額」 -->
+        <div class="mb-4">
+          <div class="text-xs font-black text-slate-800 mb-2.5 flex items-center gap-1.5">
+            <span class="w-2 h-4 bg-blue-600 rounded-sm inline-block"></span>
+            最終判断で必ず算出・比較すべき「3つの金額」
+          </div>
+
+          <div class="space-y-2">
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 font-black text-xs flex items-center justify-center shrink-0 mt-0.5">¥1</div>
+              <div>
+                <div class="text-xs font-black text-slate-800">株価圧縮による税額軽減額</div>
+                <p class="text-[11px] text-slate-600">現行通達を適用した場合の、対策前後の税負担の差額。</p>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 font-black text-xs flex items-center justify-center shrink-0 mt-0.5">¥2</div>
+              <div>
+                <div class="text-xs font-black text-slate-800">否認された場合の追加税額</div>
+                <p class="text-[11px] text-slate-600">総則6項による別評価を想定した「追加本税＋附帯税」。</p>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-rose-50/70 border border-rose-200 flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-rose-600 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5">¥3</div>
+              <div>
+                <div class="text-xs font-black text-rose-950">税効果がなくなった場合の不動産損益</div>
+                <p class="text-[11px] text-rose-900">制度改正等で株価圧縮ができなくなっても、不動産投資単体として成立するか。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 推奨・非推奨の分岐ボックス -->
+        <div class="grid grid-cols-2 gap-2.5 mb-4">
+          <div class="bg-rose-50 border border-rose-200 rounded-xl p-3">
+            <div class="text-[11px] font-black text-rose-700 mb-1 flex items-center gap-1">
+              <span>🚫 購入を非推奨</span>
+            </div>
+            <p class="text-[11px] text-slate-700 leading-normal">
+              税務メリットを失ったときの<strong>投資収益が大幅なマイナス</strong>になる物件。
+            </p>
+          </div>
+
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3">
+            <div class="text-[11px] font-black text-emerald-700 mb-1 flex items-center gap-1">
+              <span>✅ 購入を検討可</span>
+            </div>
+            <p class="text-[11px] text-slate-700 leading-normal">
+              十分な収益性があり、<strong>資産形成・承継目的にも合致</strong>する物件（効果とリスクを比較）。
+            </p>
+          </div>
+        </div>
+
+        <!-- 総括メッセージ -->
+        <div class="bg-slate-900 text-white p-4 rounded-xl">
+          <div class="text-[10px] font-bold text-amber-300 uppercase tracking-wider mb-1">FINAL TAKEAWAY</div>
+          <p class="text-xs font-bold leading-relaxed">
+            2026年の時点では、<span class="text-amber-300 underline decoration-amber-400">「3年経過後の株価圧縮を唯一の目的として、多額の借入れで不動産を購入する」</span>判断には慎重であるべきです。
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- フッター -->
+    <footer class="mt-8 px-5 text-center text-[10px] text-slate-400">
+      <p>2026年10月30日現在の法令・通達・裁判例・国税庁有識者会議資料に基づく図解整理</p>
+    </footer>
+
+  </div>
+
+  <script>
+    function switchPhase(phase) {
+      const tabExisting = document.getElementById('tab-existing');
+      const tabNew = document.getElementById('tab-new');
+      const contentExisting = document.getElementById('content-existing');
+      const contentNew = document.getElementById('content-new');
+
+      if (phase === 'existing') {
+        tabExisting.className = 'py-2 px-2 rounded-lg text-xs font-black transition bg-white text-blue-700 shadow-sm';
+        tabNew.className = 'py-2 px-2 rounded-lg text-xs font-black transition text-slate-600 hover:text-slate-900';
+        contentExisting.classList.remove('hidden');
+        contentNew.classList.add('hidden');
+      } else {
+        tabNew.className = 'py-2 px-2 rounded-lg text-xs font-black transition bg-white text-amber-700 shadow-sm';
+        tabExisting.className = 'py-2 px-2 rounded-lg text-xs font-black transition text-slate-600 hover:text-slate-900';
+        contentNew.classList.remove('hidden');
+        contentExisting.classList.add('hidden');
+      }
+    }
+
+    // ナビゲーションのアクティブ状態ハイライト
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-pill');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 90;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('bg-blue-600', 'text-white');
+        link.classList.add('bg-slate-800', 'text-slate-300');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.remove('bg-slate-800', 'text-slate-300');
+          link.classList.add('bg-blue-600', 'text-white');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
